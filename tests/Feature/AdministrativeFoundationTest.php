@@ -52,9 +52,9 @@ class AdministrativeFoundationTest extends TestCase
     {
         $n = Notary::whereSlug('notaria-demo')->firstOrFail();
         $s = app(FeatureGateService::class);
-        $this->assertTrue($s->allows($n, 'rpp_query'));
+        $this->assertTrue($s->allows($n, 'email_alerts'));
         $this->assertFalse($s->allows($n, 'missing'));
-        $this->assertSame(5000, $s->limit($n, 'monthly_records'));
+        $this->assertSame(1000, $s->limit($n, 'active_records'));
     }
 
     public function test_tenant_service_enforces_boundaries(): void

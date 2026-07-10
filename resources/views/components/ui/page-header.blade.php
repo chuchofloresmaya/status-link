@@ -1,0 +1,1 @@
+@props(['title','description'=>null,'action'=>null])<div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><h2 class="text-2xl font-bold tracking-tight">{{ $title }}</h2>@if($description)<p class="mt-1 text-sm text-slate-500">{{ $description }}</p>@endif</div>@if($action)<x-ui.button :href="$action">Nuevo</x-ui.button>@endif</div>
