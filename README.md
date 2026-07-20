@@ -10,6 +10,27 @@ El panel incluye un layout responsive con sidebar por rol, topbar, dashboards se
 - Admin de notaría: usuarios limitados a su tenant y configuración propia.
 - Usuario de notaría: dashboard básico.
 
+## Configuración notarial y bancaria
+
+La tabla `notaries` sigue representando al tenant. Dentro de cada tenant pueden existir varios perfiles notariales (`NotarialProfile`) para representar números de notaría, notarios firmantes, datos fiscales y logos distintos. Cada perfil puede tener cuentas bancarias propias, mientras que una cuenta sin perfil asociado funciona como cuenta general de la organización.
+
+- Solo puede existir un perfil notarial predeterminado por tenant.
+- Puede existir una cuenta general predeterminada y una cuenta predeterminada independiente por cada perfil.
+- Las cuentas usan un `account_type` abierto. Inicialmente se ofrecen `general`, `honorarios` e `impuestos`, pero pueden guardarse categorías personalizadas.
+- Cada combinación de notaría, perfil (o cuenta general) y tipo mantiene su propia cuenta predeterminada. Cambiar la cuenta de honorarios no altera la de impuestos.
+- Al seleccionar un nuevo default se limpia el anterior dentro del mismo alcance.
+- Al desactivar un default se elige otro recurso activo del mismo alcance cuando existe.
+- Los perfiles y cuentas no se eliminan físicamente; se activan o desactivan.
+- Los logos se guardan en `storage/app/public/notarial-profiles/logos` y su ruta relativa se registra en `logo_path`.
+
+En una instalación nueva debe publicarse el enlace de storage:
+
+```bash
+php artisan storage:link
+```
+
+Esta estructura queda preparada para que una futura cotización seleccione perfil notarial y cuenta bancaria, pero no incluye ni implementa un módulo de cotizaciones.
+
 Las rutas administrativas usan autenticación, validación de usuario/notaría activos, middleware de rol, policies y comprobaciones tenant en servidor. No existe registro público.
 
 ## Rutas principales
@@ -20,6 +41,8 @@ Las rutas administrativas usan autenticación, validación de usuario/notaría a
 - `/admin/notaries`, `/admin/plans`, `/admin/subscriptions`, `/admin/payments`, `/admin/users`: administración global.
 - `/app/users`: usuarios de la notaría autenticada.
 - `/app/settings`: configuración permitida de la notaría autenticada.
+- `/app/notarial-profiles`: perfiles notariales del tenant autenticado.
+- `/app/bank-accounts`: cuentas bancarias del tenant autenticado.
 - `/api/v1/me`: identidad autenticada mediante Sanctum.
 
 ## Roles

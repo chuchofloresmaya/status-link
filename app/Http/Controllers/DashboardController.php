@@ -28,7 +28,11 @@ class DashboardController extends Controller
         }
 
         if ($user->hasRole('notary_admin')) {
-            $notary = $user->notary()->with(['activeSubscription.plan'])->withCount(['users as active_users_count' => fn ($query) => $query->where('is_active', true)])->firstOrFail();
+            $notary = $user->notary()->with(['activeSubscription.plan', 'defaultNotarialProfile', 'defaultBankAccount'])->withCount([
+                'users as active_users_count' => fn ($query) => $query->where('is_active', true),
+                'notarialProfiles as active_notarial_profiles_count' => fn ($query) => $query->where('is_active', true),
+                'bankAccounts as active_bank_accounts_count' => fn ($query) => $query->where('is_active', true),
+            ])->firstOrFail();
 
             return view('dashboard.notary-admin', compact('notary'));
         }

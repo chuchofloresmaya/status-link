@@ -33,6 +33,36 @@ class Notary extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function notarialProfiles(): HasMany
+    {
+        return $this->hasMany(NotarialProfile::class);
+    }
+
+    public function activeNotarialProfiles(): HasMany
+    {
+        return $this->notarialProfiles()->where('is_active', true);
+    }
+
+    public function defaultNotarialProfile(): HasOne
+    {
+        return $this->hasOne(NotarialProfile::class)->where('is_default', true);
+    }
+
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
+    public function activeBankAccounts(): HasMany
+    {
+        return $this->bankAccounts()->where('is_active', true);
+    }
+
+    public function defaultBankAccount(): HasOne
+    {
+        return $this->hasOne(BankAccount::class)->whereNull('notarial_profile_id')->where('is_default', true);
+    }
+
     public function activeSubscription(): HasOne
     {
         return $this->hasOne(Subscription::class)->where('status', 'active')->latestOfMany('starts_at');

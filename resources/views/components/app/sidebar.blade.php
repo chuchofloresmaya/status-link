@@ -15,6 +15,8 @@
         @role('notary_admin')
             <x-app.nav-link :href="route('app.users.index')" :active="request()->routeIs('app.users.*')">Usuarios</x-app.nav-link>
             <x-app.nav-link :href="route('app.settings.edit')" :active="request()->routeIs('app.settings.*')">Configuración</x-app.nav-link>
+            <x-app.nav-link :href="route('app.notarial-profiles.index')" :active="request()->routeIs('app.notarial-profiles.*')">Perfiles notariales</x-app.nav-link>
+            <x-app.nav-link :href="route('app.bank-accounts.index')" :active="request()->routeIs('app.bank-accounts.*')">Cuentas bancarias</x-app.nav-link>
         @endrole
     </nav>
 </aside>
